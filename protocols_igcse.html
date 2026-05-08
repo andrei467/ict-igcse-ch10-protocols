@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocols — IGCSE ICT Grade 9</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.10.0/dist/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue-50:#E6F1FB; --blue-200:#85B7EB; --blue-400:#378ADD; --blue-600:#185FA5; --blue-800:#0C447C;
+    --teal-50:#E1F5EE; --teal-200:#5DCAA5; --teal-600:#0F6E56; --teal-800:#085041;
+    --amber-50:#FAEEDA; --amber-200:#EF9F27; --amber-600:#854F0B; --amber-800:#633806;
+    --coral-50:#FAECE7; --coral-200:#F0997B; --coral-600:#993C1D; --coral-800:#712B13;
+    --green-50:#EAF3DE; --green-200:#97C459; --green-600:#3B6D11; --green-800:#27500A;
+    --purple-50:#EEEDFE; --purple-200:#AFA9EC; --purple-600:#534AB7; --purple-800:#3C3489;
+    --pink-50:#FBE8F5; --pink-200:#E78ED1; --pink-600:#8B2270; --pink-800:#611653;
+    --gray-50:#F1EFE8; --gray-100:#D3D1C7; --gray-200:#B4B2A9; --gray-600:#5F5E5A;
+    --text:#1a1a1a; --text-sec:#555; --text-hint:#888;
+    --bg:#fff; --bg-sec:#f7f6f3; --border:rgba(0,0,0,0.12);
+    --r-sm:8px; --r-md:12px; --r-lg:16px;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg-sec); color: var(--text); min-height: 100vh; display: flex; justify-content: center; padding: 2rem 1rem 4rem; }
+  .shell { width: 100%; max-width: 720px; }
+
+  /* Header */
+  header { text-align: center; margin-bottom: 2rem; }
+  .topic-badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; background: var(--purple-50); color: var(--purple-800); padding: 4px 14px; border-radius: 20px; border: .5px solid var(--purple-200); margin-bottom: .75rem; }
+  header h1 { font-size: 28px; font-weight: 700; color: var(--text); margin-bottom: .35rem; }
+  header p { font-size: 15px; color: var(--text-sec); }
+
+  /* Progress */
+  .progress-wrap { margin-bottom: 1.5rem; }
+  .prog-meta { display: flex; justify-content: space-between; margin-bottom: .5rem; }
+  .prog-meta span { font-size: 12px; color: var(--text-hint); font-weight: 500; }
+  .prog-track { height: 6px; background: var(--gray-100); border-radius: 3px; overflow: hidden; }
+  .prog-fill { height: 100%; background: var(--purple-600); border-radius: 3px; transition: width .4s ease; }
+  .slide-dots { display: flex; gap: 4px; margin-top: .75rem; flex-wrap: wrap; }
+  .sdot { flex: 1; min-width: 18px; height: 4px; border-radius: 2px; background: var(--gray-100); transition: background .3s; cursor: pointer; }
+  .sdot.done { background: var(--purple-200); }
+  .sdot.active { background: var(--purple-600); }
+
+  /* Card shell */
+  .card-shell { background: var(--bg); border-radius: var(--r-lg); border: .5px solid var(--border); padding: 2rem; min-height: 380px; margin-bottom: 1.5rem; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+  .slide { display: none; animation: fi .3s ease; }
+  .slide.visible { display: block; }
+  @keyframes fi { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+  /* Typography */
+  .slabel { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-hint); margin-bottom: .5rem; }
+  .stitle { font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: .75rem; line-height: 1.2; }
+  .ssub { font-size: 15px; color: var(--text-sec); margin-bottom: 1.4rem; line-height: 1.6; }
+
+  /* Info cards */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .ic { padding: 1rem; border-radius: var(--r-md); border: .5px solid; }
+  .ic.blue{background:var(--blue-50);border-color:var(--blue-200);}
+  .ic.teal{background:var(--teal-50);border-color:var(--teal-200);}
+  .ic.amber{background:var(--amber-50);border-color:var(--amber-200);}
+  .ic.coral{background:var(--coral-50);border-color:var(--coral-200);}
+  .ic.green{background:var(--green-50);border-color:var(--green-200);}
+  .ic.purple{background:var(--purple-50);border-color:var(--purple-200);}
+  .ic.pink{background:var(--pink-50);border-color:var(--pink-200);}
+  .ic.gray{background:var(--gray-50);border-color:var(--gray-200);}
+  .ic-icon { font-size: 22px; margin-bottom: 6px; }
+  .ic-title { font-size: 14px; font-weight: 700; margin-bottom: 5px; }
+  .ic.blue .ic-title{color:var(--blue-800);}
+  .ic.teal .ic-title{color:var(--teal-800);}
+  .ic.amber .ic-title{color:var(--amber-800);}
+  .ic.coral .ic-title{color:var(--coral-800);}
+  .ic.green .ic-title{color:var(--green-800);}
+  .ic.purple .ic-title{color:var(--purple-800);}
+  .ic.pink .ic-title{color:var(--pink-800);}
+  .ic.gray .ic-title{color:var(--gray-600);}
+  .ic-body { font-size: 13px; color: var(--text-sec); line-height: 1.55; }
+
+  /* Highlight box */
+  .hbox { border-radius: var(--r-md); padding: 1rem 1.25rem; margin: 1rem 0; }
+  .hbox p { font-size: 14px; line-height: 1.6; }
+  .hbox.blue{background:var(--blue-50);border:.5px solid var(--blue-200);}
+  .hbox.blue p{color:var(--blue-800);}
+  .hbox.teal{background:var(--teal-50);border:.5px solid var(--teal-200);}
+  .hbox.teal p{color:var(--teal-800);}
+  .hbox.amber{background:var(--amber-50);border:.5px solid var(--amber-200);}
+  .hbox.amber p{color:var(--amber-800);}
+  .hbox.green{background:var(--green-50);border:.5px solid var(--green-200);}
+  .hbox.green p{color:var(--green-800);}
+  .hbox.purple{background:var(--purple-50);border:.5px solid var(--purple-200);}
+  .hbox.purple p{color:var(--purple-800);}
+  .hbox.coral{background:var(--coral-50);border:.5px solid var(--coral-200);}
+  .hbox.coral p{color:var(--coral-800);}
+
+  /* Rule list */
+  .rlist { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .rlist li { display: flex; align-items: flex-start; gap: 9px; font-size: 14px; color: var(--text); line-height: 1.5; }
+  .rlist li i { margin-top: 2px; flex-shrink: 0; }
+
+  /* Protocol pill banner */
+  .proto-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 1.25rem 0; }
+  .proto-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; border: .5px solid; font-size: 13px; font-weight: 700; cursor: pointer; transition: all .18s; }
+  .proto-pill.blue{background:var(--blue-50);border-color:var(--blue-200);color:var(--blue-800);}
+  .proto-pill.blue:hover,.proto-pill.blue.active{background:var(--blue-200);color:var(--blue-800);}
+  .proto-pill.teal{background:var(--teal-50);border-color:var(--teal-200);color:var(--teal-800);}
+  .proto-pill.teal:hover,.proto-pill.teal.active{background:var(--teal-200);color:var(--teal-800);}
+  .proto-pill.amber{background:var(--amber-50);border-color:var(--amber-200);color:var(--amber-800);}
+  .proto-pill.amber:hover,.proto-pill.amber.active{background:var(--amber-200);color:var(--amber-800);}
+  .proto-pill.green{background:var(--green-50);border-color:var(--green-200);color:var(--green-800);}
+  .proto-pill.green:hover,.proto-pill.green.active{background:var(--green-200);color:var(--green-800);}
+  .proto-pill.purple{background:var(--purple-50);border-color:var(--purple-200);color:var(--purple-800);}
+  .proto-pill.purple:hover,.proto-pill.purple.active{background:var(--purple-200);color:var(--purple-800);}
+  .proto-pill.coral{background:var(--coral-50);border-color:var(--coral-200);color:var(--coral-800);}
+  .proto-pill.coral:hover,.proto-pill.coral.active{background:var(--coral-200);color:var(--coral-800);}
+  .proto-detail { border-radius: var(--r-md); padding: 1rem 1.25rem; border: .5px solid; }
+
+  /* HTTP vs HTTPS comparison */
+  .compare-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .compare-col { border-radius: var(--r-md); padding: 1rem; border: .5px solid; }
+
+  /* SSL flow diagram */
+  .flow { display: flex; align-items: center; gap: 0; margin: 1.25rem 0; overflow-x: auto; }
+  .flow-step { flex: 1; min-width: 100px; text-align: center; padding: .75rem .5rem; background: var(--purple-50); border: .5px solid var(--purple-200); position: relative; }
+  .flow-step:first-child { border-radius: var(--r-sm) 0 0 var(--r-sm); }
+  .flow-step:last-child { border-radius: 0 var(--r-sm) var(--r-sm) 0; }
+  .flow-icon { font-size: 20px; color: var(--purple-600); margin-bottom: 4px; }
+  .flow-label { font-size: 11px; font-weight: 700; color: var(--purple-800); line-height: 1.3; }
+  .flow-arrow { font-size: 18px; color: var(--purple-400, var(--purple-200)); flex-shrink: 0; margin: 0 -1px; z-index:1; }
+
+  /* Use-case grid */
+  .use-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 1rem 0; }
+  .use-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: .875rem .75rem; border-radius: var(--r-md); border: .5px solid; cursor: default; transition: transform .15s; }
+  .use-card:hover { transform: translateY(-2px); }
+  .use-card.purple{background:var(--purple-50);border-color:var(--purple-200);}
+  .use-card.blue{background:var(--blue-50);border-color:var(--blue-200);}
+  .use-card.teal{background:var(--teal-50);border-color:var(--teal-200);}
+  .use-card.green{background:var(--green-50);border-color:var(--green-200);}
+  .use-card.amber{background:var(--amber-50);border-color:var(--amber-200);}
+  .use-card.coral{background:var(--coral-50);border-color:var(--coral-200);}
+  .use-card .u-icon { font-size: 22px; margin-bottom: 6px; }
+  .use-card .u-label { font-size: 12px; font-weight: 700; }
+  .use-card.purple .u-label{color:var(--purple-800);}
+  .use-card.blue .u-label{color:var(--blue-800);}
+  .use-card.teal .u-label{color:var(--teal-800);}
+  .use-card.green .u-label{color:var(--green-800);}
+  .use-card.amber .u-label{color:var(--amber-800);}
+  .use-card.coral .u-label{color:var(--coral-800);}
+
+  /* Quiz */
+  .qbtn { text-align: left; padding: .75rem 1rem; border-radius: var(--r-sm); border: .5px solid var(--border); background: var(--bg); color: var(--text); font-size: 14px; cursor: pointer; transition: all .15s; width: 100%; margin-bottom: 8px; font-family: inherit; }
+  .qbtn:hover:not(:disabled) { background: var(--bg-sec); }
+  .qbtn.correct{background:var(--green-50);border-color:var(--green-200);color:var(--green-800);font-weight:700;}
+  .qbtn.wrong{background:var(--coral-50);border-color:var(--coral-200);color:var(--coral-800);}
+  .qbtn:disabled{pointer-events:none;}
+  .qfeedback { margin-top: .75rem; font-size: 14px; padding: .75rem 1rem; border-radius: var(--r-sm); display: none; }
+  .qfeedback.show{display:block;}
+  .qfeedback.ok{background:var(--green-50);color:var(--green-800);border:.5px solid var(--green-200);}
+  .qfeedback.no{background:var(--coral-50);color:var(--coral-800);border:.5px solid var(--coral-200);}
+  .quiz-nav { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
+  .qnav-btn { min-width: 34px; padding: 5px 10px; border-radius: 6px; border: .5px solid var(--border); background: transparent; cursor: pointer; font-size: 13px; font-family: inherit; transition: all .15s; }
+  .qnav-btn.right{background:var(--green-50);border-color:var(--green-200);color:var(--green-800);}
+  .qnav-btn.wrong{background:var(--coral-50);border-color:var(--coral-200);color:var(--coral-800);}
+
+  /* Match activity */
+  .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .match-col-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-hint); margin-bottom: 8px; }
+  .match-term { padding: .65rem 1rem; border-radius: var(--r-sm); border: .5px solid var(--purple-200); background: var(--purple-50); font-size: 13px; font-weight: 700; color: var(--purple-800); margin-bottom: 6px; cursor: pointer; transition: all .15s; }
+  .match-term:hover { background: var(--purple-200); }
+  .match-term.selected { background: var(--purple-600); color: #fff; border-color: var(--purple-800); }
+  .match-term.correct-match { background: var(--green-50); border-color: var(--green-200); color: var(--green-800); cursor: default; }
+  .match-term.wrong-match { background: var(--coral-50); border-color: var(--coral-200); color: var(--coral-800); }
+  .match-def { padding: .65rem 1rem; border-radius: var(--r-sm); border: .5px solid var(--border); background: var(--bg-sec); font-size: 13px; color: var(--text-sec); margin-bottom: 6px; cursor: pointer; transition: all .15s; line-height: 1.4; }
+  .match-def:hover:not(.matched) { background: var(--gray-100); border-color: var(--gray-200); }
+  .match-def.selected { background: var(--blue-50); border-color: var(--blue-200); color: var(--blue-800); }
+  .match-def.matched { cursor: default; opacity: .6; }
+  .match-feedback { margin-top: 1rem; font-size: 14px; padding: .75rem 1rem; border-radius: var(--r-sm); display: none; }
+  .match-feedback.show { display: block; }
+
+  /* Score */
+  .score-box { text-align: center; padding: 2rem; border-radius: var(--r-md); background: var(--bg-sec); border: .5px solid var(--border); margin-top: 1.5rem; }
+  .score-num { font-size: 56px; font-weight: 700; color: var(--purple-600); }
+  .score-lbl { font-size: 14px; color: var(--text-sec); margin-top: 6px; }
+
+  /* Checklist */
+  .checklist { display: flex; flex-direction: column; gap: 8px; }
+  .check-item { display: flex; align-items: center; gap: 10px; padding: .75rem 1rem; border-radius: var(--r-sm); border: .5px solid; }
+  .check-item span { font-size: 14px; font-weight: 600; }
+  .check-item.blue{background:var(--blue-50);border-color:var(--blue-200);} .check-item.blue span{color:var(--blue-800);}
+  .check-item.teal{background:var(--teal-50);border-color:var(--teal-200);} .check-item.teal span{color:var(--teal-800);}
+  .check-item.amber{background:var(--amber-50);border-color:var(--amber-200);} .check-item.amber span{color:var(--amber-800);}
+  .check-item.coral{background:var(--coral-50);border-color:var(--coral-200);} .check-item.coral span{color:var(--coral-800);}
+  .check-item.green{background:var(--green-50);border-color:var(--green-200);} .check-item.green span{color:var(--green-800);}
+  .check-item.purple{background:var(--purple-50);border-color:var(--purple-200);} .check-item.purple span{color:var(--purple-800);}
+  .check-item.gray{background:var(--gray-50);border-color:var(--gray-200);} .check-item.gray span{color:var(--gray-600);}
+
+  /* Navigation */
+  .nav { display: flex; align-items: center; justify-content: space-between; }
+  .nbtn { display: flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: var(--r-sm); border: .5px solid var(--border); background: var(--bg); color: var(--text); font-size: 14px; cursor: pointer; transition: all .15s; font-family: inherit; font-weight: 600; }
+  .nbtn:hover { background: var(--bg-sec); }
+  .nbtn:disabled { opacity: .3; cursor: default; }
+  .nctr { font-size: 13px; color: var(--text-hint); font-weight: 600; }
+
+  @media(max-width:520px) {
+    .grid2,.grid3,.compare-row,.match-grid,.use-grid { grid-template-columns: 1fr; }
+    .use-grid { grid-template-columns: 1fr 1fr; }
+    .card-shell { padding: 1.25rem; }
+    header h1 { font-size: 22px; }
+    .stitle { font-size: 20px; }
+    .flow { gap: 2px; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header>
+    <div class="topic-badge">IGCSE ICT · Grade 9</div>
+    <h1>🔒 Protocols</h1>
+    <p>Interactive Revision Presentation</p>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="prog-meta">
+      <span id="slide-name">What is a Protocol?</span>
+      <span id="slide-frac">1 / 12</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:8.3%"></div></div>
+    <div class="slide-dots" id="slide-dots"></div>
+  </div>
+
+  <div class="card-shell">
+    <div id="slides-wrap"></div>
+  </div>
+
+  <div class="nav">
+    <button class="nbtn" id="prev-btn" onclick="navigate(-1)" disabled>
+      <i class="ti ti-arrow-left"></i> Previous
+    </button>
+    <span class="nctr" id="nav-ctr">1 / 12</span>
+    <button class="nbtn" id="next-btn" onclick="navigate(1)">
+      Next <i class="ti ti-arrow-right"></i>
+    </button>
+  </div>
+</div>
+
+<script>
+// ─── Protocol explorer data ───────────────────────────────────────────────────
+const protocolData = {
+  http: {
+    color: 'blue',
+    icon: 'ti-world',
+    name: 'HTTP',
+    full: 'Hypertext Transfer Protocol',
+    desc: 'Allows communication between clients and servers for website viewing. Clients can receive data (fetching a page) and send data (submitting a form) to the server. <strong>No encryption</strong> — data is sent in plain text.',
+  },
+  https: {
+    color: 'teal',
+    icon: 'ti-lock',
+    name: 'HTTPS',
+    full: 'Hypertext Transfer Protocol Secure',
+    desc: 'Works the same as HTTP but with an <strong>added layer of security</strong>. All data sent and received is <strong>encrypted</strong>, protecting passwords, financial information, and personal data.',
+  },
+  ftp: {
+    color: 'amber',
+    icon: 'ti-file-upload',
+    name: 'FTP',
+    full: 'File Transfer Protocol',
+    desc: 'Allows sending and receiving files between computers. Used for uploading/downloading to/from a web server. Supports <strong>bulk transfers, large files</strong>, and resuming interrupted transfers.',
+  },
+  ssl: {
+    color: 'purple',
+    icon: 'ti-shield-lock',
+    name: 'SSL',
+    full: 'Secure Socket Layer',
+    desc: 'A security protocol developed to provide <strong>secure communication</strong> over the internet. Uses a combination of symmetric and asymmetric encryption. Sends a <strong>digital certificate</strong> containing a public key to the browser for authentication.',
+  },
+  tls: {
+    color: 'green',
+    icon: 'ti-shield-check',
+    name: 'TLS',
+    full: 'Transport Layer Security',
+    desc: 'The <strong>successor to SSL</strong>. Also a security protocol for secure communication. More modern and secure than SSL. Both SSL and TLS use encryption to secure data and ensure <strong>data integrity</strong>.',
+  },
+  voip: {
+    color: 'coral',
+    icon: 'ti-phone-call',
+    name: 'VoIP',
+    full: 'Voice over Internet Protocol',
+    desc: 'Allows <strong>voice calls</strong> (and video) to be made over the internet instead of traditional telephone networks. Converts analogue voice signals into digital data packets that are transmitted over the internet.',
+  },
+  smtp: {
+    color: 'pink',
+    icon: 'ti-mail-forward',
+    name: 'SMTP',
+    full: 'Simple Mail Transfer Protocol',
+    desc: 'The standard protocol for <strong>sending emails</strong> between servers. When you send an email, your client uses SMTP to deliver it to the recipient\'s mail server. Works alongside POP3/IMAP which are used for <em>receiving</em> email.',
+  },
+};
+
+// ─── Slides ───────────────────────────────────────────────────────────────────
+const slides = [
+  // 1 — What is a protocol?
+  {
+    name: 'What is a Protocol?',
+    html: `
+      <p class="slabel">Introduction</p>
+      <p class="stitle">What is a Protocol?</p>
+      <p class="ssub">A protocol is a <strong>set of rules</strong> that govern how data is communicated across a network. Without protocols, devices would not be able to understand each other.</p>
+      <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:.75rem;">Key protocols you need to know:</p>
+      <div class="proto-row">
+        <span class="proto-pill blue"><i class="ti ti-world"></i> HTTP</span>
+        <span class="proto-pill teal"><i class="ti ti-lock"></i> HTTPS</span>
+        <span class="proto-pill amber"><i class="ti ti-file-upload"></i> FTP</span>
+        <span class="proto-pill purple"><i class="ti ti-shield-lock"></i> SSL</span>
+        <span class="proto-pill green"><i class="ti ti-shield-check"></i> TLS</span>
+        <span class="proto-pill coral"><i class="ti ti-phone-call"></i> VoIP</span>
+        <span class="proto-pill pink" style="background:var(--pink-50);border-color:var(--pink-200);color:var(--pink-800);"><i class="ti ti-mail-forward"></i> SMTP</span>
+      </div>
+      <div class="hbox purple">
+        <p><i class="ti ti-bulb" style="margin-right:6px"></i><strong>Analogy:</strong> Think of protocols like a language — both sides of a conversation must speak the same language (follow the same rules) to understand each other.</p>
+      </div>
+    `
+  },
+
+  // 2 — Protocol explorer
+  {
+    name: 'Protocol Explorer',
+    html: `
+      <p class="slabel">All Protocols</p>
+      <p class="stitle">Protocol Explorer</p>
+      <p class="ssub">Tap any protocol to read its full definition.</p>
+      <div class="proto-row" id="explorer-pills">
+        ${Object.entries(protocolData).map(([key, p]) =>
+          `<button class="proto-pill ${p.color}" onclick="showProto('${key}')" id="pill-${key}"><i class="ti ${p.icon}"></i> ${p.name}</button>`
+        ).join('')}
+      </div>
+      <div id="proto-detail" style="margin-top:.5rem;"></div>
+    `
+  },
+
+  // 3 — HTTP & HTTPS
+  {
+    name: 'HTTP & HTTPS',
+    html: `
+      <p class="slabel">Protocol: HTTP & HTTPS</p>
+      <p class="stitle">HTTP vs HTTPS</p>
+      <p class="ssub">Both protocols allow web browsers to communicate with servers. The key difference is <strong>security</strong>.</p>
+      <div class="compare-row" style="margin-bottom:1rem;">
+        <div class="compare-col ic blue">
+          <div class="ic-icon"><i class="ti ti-world"></i></div>
+          <div class="ic-title">HTTP</div>
+          <div class="ic-body" style="margin-top:6px;">
+            <ul class="rlist">
+              <li><i class="ti ti-point" style="font-size:10px;margin-top:4px;color:var(--blue-600)"></i>Hypertext Transfer Protocol</li>
+              <li><i class="ti ti-point" style="font-size:10px;margin-top:4px;color:var(--blue-600)"></i>Data sent in <strong>plain text</strong></li>
+              <li><i class="ti ti-point" style="font-size:10px;margin-top:4px;color:var(--blue-600)"></i>Not suitable for sensitive data</li>
+              <li><i class="ti ti-point" style="font-size:10px;margin-top:4px;color:var(--blue-600)"></i>Used on sites without logins</li>
+            </ul>
+          </div>
+        </div>
+        <div class="compare-col ic teal">
+          <div class="ic-icon"><i class="ti ti-lock"></i></div>
+          <div class="ic-title">HTTPS</div>
+          <div class="ic-body" style="margin-top:6px;">
+            <ul class="rlist">
+              <li><i class="ti ti-point" style="font-size:10px;margin-top:4px;color:var(--teal-600)"></i>HTTP + Security layer</li>
+              <li><i class="ti ti-point" style="font-size:10px;margin-top:4px;color:var(--teal-600)"></i>All data is <strong>encrypted</strong></li>
+              <li><i class="ti ti-point" style="font-size:10px;margin-top:4px;color:var(--teal-600)"></i>Protects passwords, financial & personal data</li>
+              <li><i class="ti ti-point" style="font-size:10px;margin-top:4px;color:var(--teal-600)"></i>Shown by 🔒 in browser address bar</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="hbox blue">
+        <p><i class="ti ti-mouse" style="margin-right:6px"></i><strong>Both</strong> allow clients to <strong>receive data</strong> (fetching a webpage) and <strong>send data</strong> (submitting a form or uploading a file) to a server.</p>
+      </div>
+    `
+  },
+
+  // 4 — FTP
+  {
+    name: 'FTP',
+    html: `
+      <p class="slabel">Protocol: FTP</p>
+      <p class="stitle">File Transfer Protocol (FTP)</p>
+      <p class="ssub">FTP allows computers to <strong>send and receive files</strong> over a network — commonly used to upload or download files to/from a web server.</p>
+      <div class="grid2" style="margin-bottom:1rem;">
+        <div class="ic amber">
+          <div class="ic-icon"><i class="ti ti-upload"></i></div>
+          <div class="ic-title">Uploading</div>
+          <div class="ic-body">Sending files <em>from</em> your computer <em>to</em> a web server (e.g. publishing a website)</div>
+        </div>
+        <div class="ic amber">
+          <div class="ic-icon"><i class="ti ti-download"></i></div>
+          <div class="ic-title">Downloading</div>
+          <div class="ic-body">Receiving files <em>from</em> a server <em>to</em> your computer</div>
+        </div>
+      </div>
+      <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">Advantages of FTP:</p>
+      <ul class="rlist">
+        <li><i class="ti ti-files" style="color:var(--amber-600);font-size:16px"></i>Supports <strong>bulk transfers</strong> — many files at once</li>
+        <li><i class="ti ti-file-search" style="color:var(--amber-600);font-size:16px"></i>Handles <strong>large files</strong> efficiently</li>
+        <li><i class="ti ti-refresh" style="color:var(--amber-600);font-size:16px"></i>Can <strong>resume interrupted transfers</strong> rather than restarting</li>
+        <li><i class="ti ti-device-laptop" style="color:var(--amber-600);font-size:16px"></i><strong>FTP clients</strong> are software apps that make the process easier for users</li>
+      </ul>
+    `
+  },
+
+  // 5 — SSL & TLS
+  {
+    name: 'SSL & TLS',
+    html: `
+      <p class="slabel">Protocol: SSL & TLS</p>
+      <p class="stitle">SSL & TLS</p>
+      <p class="ssub">Both are <strong>security protocols</strong> that provide secure, encrypted communication over the internet. TLS is the modern successor to SSL.</p>
+      <div class="compare-row" style="margin-bottom:1rem;">
+        <div class="compare-col ic purple">
+          <div class="ic-icon"><i class="ti ti-shield-lock"></i></div>
+          <div class="ic-title">SSL</div>
+          <div class="ic-body" style="margin-top:6px;">
+            Secure Socket Layer — the <strong>original</strong> security protocol. Uses symmetric + asymmetric encryption. Now considered outdated and replaced by TLS.
+          </div>
+        </div>
+        <div class="compare-col ic green">
+          <div class="ic-icon"><i class="ti ti-shield-check"></i></div>
+          <div class="ic-title">TLS</div>
+          <div class="ic-body" style="margin-top:6px;">
+            Transport Layer Security — the <strong>successor to SSL</strong>. More secure and widely used today. Still often referred to as "SSL" in everyday conversation.
+          </div>
+        </div>
+      </div>
+      <div class="hbox purple">
+        <p><i class="ti ti-key" style="margin-right:6px"></i>SSL encrypts data using a <strong>public key</strong>, delivered via a <strong>digital certificate</strong> sent to the user's browser. This also provides <strong>authentication</strong> — proving the site is genuine.</p>
+      </div>
+    `
+  },
+
+  // 6 — SSL how it works
+  {
+    name: 'How SSL Works',
+    html: `
+      <p class="slabel">Protocol: SSL & TLS</p>
+      <p class="stitle">How SSL Works (step by step)</p>
+      <p class="ssub">When you connect to a secure website, SSL/TLS follows this handshake process:</p>
+      <div class="flow" id="ssl-flow">
+        <div class="flow-step" style="cursor:pointer;" onclick="showFlowDetail(0)">
+          <div class="flow-icon"><i class="ti ti-browser"></i></div>
+          <div class="flow-label">1. Browser requests site</div>
+        </div>
+        <div style="font-size:18px;color:var(--purple-200);padding:0 2px;flex-shrink:0;">›</div>
+        <div class="flow-step" style="cursor:pointer;" onclick="showFlowDetail(1)">
+          <div class="flow-icon"><i class="ti ti-certificate"></i></div>
+          <div class="flow-label">2. Server sends certificate</div>
+        </div>
+        <div style="font-size:18px;color:var(--purple-200);padding:0 2px;flex-shrink:0;">›</div>
+        <div class="flow-step" style="cursor:pointer;" onclick="showFlowDetail(2)">
+          <div class="flow-icon"><i class="ti ti-key"></i></div>
+          <div class="flow-label">3. Public key received</div>
+        </div>
+        <div style="font-size:18px;color:var(--purple-200);padding:0 2px;flex-shrink:0;">›</div>
+        <div class="flow-step" style="cursor:pointer;" onclick="showFlowDetail(3)">
+          <div class="flow-icon"><i class="ti ti-lock"></i></div>
+          <div class="flow-label">4. Encrypted connection</div>
+        </div>
+      </div>
+      <div class="hbox purple" id="flow-detail">
+        <p><i class="ti ti-hand-click" style="margin-right:6px"></i>Tap any step above to learn more.</p>
+      </div>
+    `
+  },
+
+  // 7 — SSL uses
+  {
+    name: 'Where SSL is Used',
+    html: `
+      <p class="slabel">Protocol: SSL & TLS</p>
+      <p class="stitle">Where is SSL/TLS Used?</p>
+      <p class="ssub">SSL and TLS are used anywhere a <strong>secure connection</strong> is required to protect sensitive data.</p>
+      <div class="use-grid">
+        <div class="use-card blue">
+          <div class="u-icon"><i class="ti ti-building-bank" style="color:var(--blue-600)"></i></div>
+          <div class="u-label">Online Banking</div>
+        </div>
+        <div class="use-card teal">
+          <div class="u-icon"><i class="ti ti-shopping-cart" style="color:var(--teal-600)"></i></div>
+          <div class="u-label">Online Shopping</div>
+        </div>
+        <div class="use-card purple">
+          <div class="u-icon"><i class="ti ti-cloud" style="color:var(--purple-600)"></i></div>
+          <div class="u-label">Cloud Storage</div>
+        </div>
+        <div class="use-card green">
+          <div class="u-icon"><i class="ti ti-message-circle" style="color:var(--green-600)"></i></div>
+          <div class="u-label">Messaging</div>
+        </div>
+        <div class="use-card coral">
+          <div class="u-icon"><i class="ti ti-social" style="color:var(--coral-600)"></i></div>
+          <div class="u-label">Social Networks</div>
+        </div>
+        <div class="use-card amber">
+          <div class="u-icon"><i class="ti ti-building" style="color:var(--amber-600)"></i></div>
+          <div class="u-label">Intranets / Extranets</div>
+        </div>
+      </div>
+      <div class="hbox teal" style="margin-top:.5rem;">
+        <p><i class="ti ti-info-circle" style="margin-right:6px"></i>You can tell SSL/TLS is active when you see <strong>https://</strong> and a 🔒 padlock icon in your browser's address bar.</p>
+      </div>
+    `
+  },
+
+  // 8 — VoIP
+  {
+    name: 'VoIP',
+    html: `
+      <p class="slabel">Protocol: VoIP</p>
+      <p class="stitle">Voice over Internet Protocol (VoIP)</p>
+      <p class="ssub">VoIP allows <strong>voice and video calls</strong> to be made over the internet instead of traditional telephone networks.</p>
+      <div class="grid2" style="margin-bottom:1rem;">
+        <div class="ic coral">
+          <div class="ic-icon"><i class="ti ti-phone-call"></i></div>
+          <div class="ic-title">How it works</div>
+          <div class="ic-body">Converts <strong>analogue voice signals</strong> into <strong>digital data packets</strong>, which are transmitted over the internet and reassembled at the other end.</div>
+        </div>
+        <div class="ic coral">
+          <div class="ic-icon"><i class="ti ti-apps"></i></div>
+          <div class="ic-title">Examples</div>
+          <div class="ic-body">Skype, Zoom, WhatsApp calls, Google Meet, Microsoft Teams — all use VoIP technology.</div>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="ic green">
+          <div class="ic-icon"><i class="ti ti-circle-check"></i></div>
+          <div class="ic-title">Advantages</div>
+          <div class="ic-body">Lower cost than traditional calls. Calls can be free over the internet. Works globally.</div>
+        </div>
+        <div class="ic amber">
+          <div class="ic-icon"><i class="ti ti-alert-triangle"></i></div>
+          <div class="ic-title">Disadvantages</div>
+          <div class="ic-body">Requires a reliable internet connection. Quality can drop with poor bandwidth.</div>
+        </div>
+      </div>
+    `
+  },
+
+  // 9 — SMTP
+  {
+    name: 'SMTP',
+    html: `
+      <p class="slabel">Protocol: SMTP</p>
+      <p class="stitle">Simple Mail Transfer Protocol (SMTP)</p>
+      <p class="ssub">SMTP is the standard protocol for <strong>sending emails</strong> between mail servers across the internet.</p>
+      <div class="grid2" style="margin-bottom:1rem;">
+        <div class="ic pink" style="background:var(--pink-50);border-color:var(--pink-200);">
+          <div class="ic-icon"><i class="ti ti-mail-forward" style="color:var(--pink-600)"></i></div>
+          <div class="ic-title" style="color:var(--pink-800);">SMTP — Sending</div>
+          <div class="ic-body">Used to <strong>send</strong> an email from your client to the recipient's mail server.</div>
+        </div>
+        <div class="ic gray">
+          <div class="ic-icon"><i class="ti ti-mail-opened"></i></div>
+          <div class="ic-title">POP3 / IMAP — Receiving</div>
+          <div class="ic-body">Separate protocols used to <strong>retrieve</strong> emails from a mail server to your device.</div>
+        </div>
+      </div>
+      <div class="hbox amber">
+        <p style="margin-bottom:.5rem;"><i class="ti ti-route" style="margin-right:6px"></i><strong>SMTP email journey:</strong></p>
+        <p>You send email → SMTP delivers to recipient's server → Recipient uses POP3/IMAP to download it.</p>
+      </div>
+      <ul class="rlist" style="margin-top:1rem;">
+        <li><i class="ti ti-server" style="color:var(--pink-600);font-size:16px"></i>Works between <strong>mail servers</strong> on the internet</li>
+        <li><i class="ti ti-check" style="color:var(--pink-600);font-size:16px"></i>Simple and widely supported — used by all major email services</li>
+      </ul>
+    `
+  },
+
+  // 10 — Match activity
+  {
+    name: 'Match Activity',
+    html: `
+      <p class="slabel">Activity</p>
+      <p class="stitle">Match the Protocol</p>
+      <p class="ssub">Tap a protocol name, then tap its correct definition.</p>
+      <div class="match-grid">
+        <div>
+          <p class="match-col-title">Protocols</p>
+          <div id="match-terms"></div>
+        </div>
+        <div>
+          <p class="match-col-title">Definitions</p>
+          <div id="match-defs"></div>
+        </div>
+      </div>
+      <div class="match-feedback" id="match-fb"></div>
+    `
+  },
+
+  // 11 — Quiz
+  {
+    name: 'Quiz',
+    html: `
+      <p class="slabel">Test yourself</p>
+      <p class="stitle">Quick Quiz</p>
+      <div id="quiz-container"></div>
+    `
+  },
+
+  // 12 — Summary
+  {
+    name: 'Summary',
+    html: `
+      <p class="slabel">All done!</p>
+      <p class="stitle">Topic checklist</p>
+      <p class="ssub">Make sure you are confident on every area before your IGCSE exam.</p>
+      <div class="checklist">
+        ${[
+          ['What a protocol is — a set of rules for network communication', 'purple'],
+          ['HTTP — allows web browsing, sends data in plain text', 'blue'],
+          ['HTTPS — same as HTTP but with encryption for security', 'teal'],
+          ['FTP — transfers files between computers/servers', 'amber'],
+          ['SSL — security protocol using public key & digital certificate', 'purple'],
+          ['TLS — modern successor to SSL, more secure', 'green'],
+          ['VoIP — voice/video calls made over the internet', 'coral'],
+          ['SMTP — protocol for sending emails between servers', 'gray'],
+          ['Where SSL/TLS is used — banking, shopping, messaging, etc.', 'blue'],
+        ].map(([t,c])=>`<div class="check-item ${c}"><i class="ti ti-circle-check" style="font-size:18px;flex-shrink:0"></i><span>${t}</span></div>`).join('')}
+      </div>
+      <div id="final-score" style="margin-top:1.5rem;"></div>
+    `
+  }
+];
+
+// ─── Quiz data ─────────────────────────────────────────────────────────────────
+const quizData = [
+  { q:'What does HTTPS stand for?', opts:['Hypertext Transfer Protocol Secure','Hypertext Transfer Process Secure','High Transfer Protocol System','Hyperlink Text Protocol Secure'], correct:0, explain:'HTTPS = Hypertext Transfer Protocol Secure. It adds encryption to standard HTTP.' },
+  { q:'Which protocol is used to transfer files between computers?', opts:['SMTP','VoIP','FTP','TLS'], correct:2, explain:'FTP (File Transfer Protocol) is specifically designed for transferring files between computers and servers.' },
+  { q:'What is TLS?', opts:['A type of web browser','The successor to SSL, providing secure communication','A file transfer method','A protocol for sending emails'], correct:1, explain:'TLS (Transport Layer Security) is the modern replacement for SSL, providing more secure encrypted communication.' },
+  { q:'Which protocol is used to SEND emails between servers?', opts:['HTTP','FTP','POP3','SMTP'], correct:3, explain:'SMTP (Simple Mail Transfer Protocol) is used for sending emails. POP3/IMAP are used for receiving them.' },
+  { q:'What does SSL use to encrypt a user\'s data?', opts:['A password','A public key via a digital certificate','A username and PIN','A private IP address'], correct:1, explain:'SSL encrypts data using a public key, delivered to the browser via a digital certificate.' },
+  { q:'Which protocol converts voice signals into digital data packets for internet transmission?', opts:['SMTP','FTP','VoIP','SSL'], correct:2, explain:'VoIP (Voice over Internet Protocol) converts analogue voice into digital packets sent over the internet.' },
+  { q:'A website showing "https://" in its address bar means:', opts:['It loads faster than HTTP sites','The data is encrypted and the connection is secure','It only works on mobile devices','It does not use a web server'], correct:1, explain:'HTTPS in the address bar (with a padlock 🔒) means the connection is encrypted using SSL/TLS, keeping data secure.' },
+];
+
+// ─── Match activity data ───────────────────────────────────────────────────────
+const matchPairs = [
+  { term:'HTTP',  def:'Allows web browsers to communicate with servers — no encryption' },
+  { term:'FTP',   def:'Transfers files between computers; supports large and bulk transfers' },
+  { term:'SSL',   def:'Security protocol using a public key and digital certificate' },
+  { term:'VoIP',  def:'Converts voice into digital packets for internet calls' },
+  { term:'SMTP',  def:'Standard protocol for sending emails between mail servers' },
+];
+
+// ─── State ─────────────────────────────────────────────────────────────────────
+let cur = 0;
+let quizAnswers = {};
+let quizScore = 0;
+let matchSelected = null; // { type:'term'|'def', index:number }
+let matchDone = {}; // index → true
+
+const flowDetails = [
+  { title:'Step 1: Browser requests site', body:'Your browser sends a request to connect to the website. It also tells the server which SSL/TLS versions and encryption methods it supports.' },
+  { title:'Step 2: Server sends certificate', body:'The server responds by sending a <strong>digital certificate</strong>. This proves the server\'s identity and contains its <strong>public key</strong>.' },
+  { title:'Step 3: Public key received', body:'The browser verifies the digital certificate is valid (issued by a trusted authority). It then uses the <strong>public key</strong> to encrypt a session key.' },
+  { title:'Step 4: Encrypted connection established', body:'Both the browser and server now share a session key. All data sent between them is <strong>encrypted</strong> — the connection is secure.' },
+];
+
+// ─── Render ────────────────────────────────────────────────────────────────────
+function renderProgress() {
+  const pct = ((cur + 1) / slides.length * 100).toFixed(1);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('slide-name').textContent = slides[cur].name;
+  document.getElementById('slide-frac').textContent = (cur+1) + ' / ' + slides.length;
+  document.getElementById('nav-ctr').textContent = (cur+1) + ' / ' + slides.length;
+  document.getElementById('slide-dots').innerHTML = slides.map((s,i) =>
+    `<div class="sdot ${i<cur?'done':i===cur?'active':''}" title="${s.name}" onclick="goTo(${i})"></div>`
+  ).join('');
+}
+
+function renderSlide() {
+  document.getElementById('slides-wrap').innerHTML = `<div class="slide visible">${slides[cur].html}</div>`;
+  if (cur === 9)  renderMatch();
+  if (cur === 10) renderQuiz();
+  if (cur === 11) renderFinalScore();
+  document.getElementById('prev-btn').disabled = cur === 0;
+  document.getElementById('next-btn').disabled = cur === slides.length - 1;
+  renderProgress();
+}
+
+// ─── Protocol explorer ─────────────────────────────────────────────────────────
+function showProto(key) {
+  document.querySelectorAll('#explorer-pills .proto-pill').forEach(b => b.classList.remove('active'));
+  document.getElementById('pill-' + key).classList.add('active');
+  const p = protocolData[key];
+  document.getElementById('proto-detail').innerHTML = `
+    <div class="proto-detail ic ${p.color}" style="margin-top:.25rem;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <i class="ti ${p.icon}" style="font-size:20px"></i>
+        <strong style="font-size:15px;">${p.name}</strong>
+        <span style="font-size:12px;font-weight:500;opacity:.7;">— ${p.full}</span>
+      </div>
+      <p style="font-size:14px;color:var(--text-sec);line-height:1.6;">${p.desc}</p>
+    </div>`;
+}
+
+// ─── SSL flow ──────────────────────────────────────────────────────────────────
+function showFlowDetail(i) {
+  const d = flowDetails[i];
+  document.getElementById('flow-detail').innerHTML = `<p><strong>${d.title}:</strong> ${d.body}</p>`;
+}
+
+// ─── Match activity ────────────────────────────────────────────────────────────
+function renderMatch() {
+  const tc = document.getElementById('match-terms');
+  const dc = document.getElementById('match-defs');
+  if (!tc || !dc) return;
+
+  // Shuffle definitions display order
+  const defs = matchPairs.map((p, i) => ({ text: p.def, idx: i }));
+  defs.sort(() => Math.random() - 0.5);
+
+  tc.innerHTML = matchPairs.map((p, i) =>
+    `<div class="match-term ${matchDone[i] ? 'correct-match' : ''}" id="term-${i}" onclick="matchClick('term',${i})">${p.term}</div>`
+  ).join('');
+
+  dc.innerHTML = defs.map(d =>
+    `<div class="match-def ${matchDone[d.idx] ? 'matched' : ''}" id="def-${d.idx}" onclick="matchClick('def',${d.idx})">${d.text}</div>`
+  ).join('');
+}
+
+function matchClick(type, idx) {
+  if (matchDone[idx] && type === 'def') return;
+  const fb = document.getElementById('match-fb');
+
+  if (!matchSelected) {
+    matchSelected = { type, idx };
+    document.getElementById((type==='term'?'term-':'def-') + idx).classList.add('selected');
+    return;
+  }
+
+  // Already selected same type — switch selection
+  if (matchSelected.type === type) {
+    document.querySelectorAll('.match-term.selected,.match-def.selected').forEach(e => e.classList.remove('selected'));
+    matchSelected = { type, idx };
+    document.getElementById((type==='term'?'term-':'def-') + idx).classList.add('selected');
+    return;
+  }
+
+  // Check pair
+  const termIdx = type === 'def' ? matchSelected.idx : idx;
+  const defIdx  = type === 'def' ? idx : matchSelected.idx;
+
+  document.querySelectorAll('.match-term.selected,.match-def.selected').forEach(e => e.classList.remove('selected'));
+
+  if (termIdx === defIdx) {
+    // Correct
+    matchDone[termIdx] = true;
+    document.getElementById('term-' + termIdx).className = 'match-term correct-match';
+    document.getElementById('def-'  + defIdx ).className = 'match-def matched';
+    const remaining = matchPairs.length - Object.keys(matchDone).length;
+    fb.className = 'match-feedback show';
+    fb.style.cssText = 'background:var(--green-50);border:.5px solid var(--green-200);color:var(--green-800);font-size:14px;padding:.75rem 1rem;border-radius:var(--r-sm);';
+    fb.innerHTML = remaining === 0
+      ? '🎉 All matched! Well done.'
+      : `✓ Correct! ${remaining} pair${remaining!==1?'s':''} left.`;
+  } else {
+    // Wrong
+    fb.className = 'match-feedback show';
+    fb.style.cssText = 'background:var(--coral-50);border:.5px solid var(--coral-200);color:var(--coral-800);font-size:14px;padding:.75rem 1rem;border-radius:var(--r-sm);';
+    fb.innerHTML = '✗ Not quite — try again!';
+  }
+  matchSelected = null;
+}
+
+// ─── Quiz ──────────────────────────────────────────────────────────────────────
+function renderQuiz() {
+  const c = document.getElementById('quiz-container');
+  if (!c) return;
+  let html = '<div class="quiz-nav">';
+  quizData.forEach((_, i) => {
+    let cls = quizAnswers[i] !== undefined ? (quizAnswers[i] === quizData[i].correct ? 'right' : 'wrong') : '';
+    html += `<button class="qnav-btn ${cls}" onclick="showQ(${i})">${i+1}</button>`;
+  });
+  html += '</div><div id="q-display"></div>';
+  c.innerHTML = html;
+  showQ(0);
+}
+
+function showQ(i) {
+  const d = quizData[i];
+  const answered = quizAnswers[i] !== undefined;
+  let html = `<p style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:1rem;">${i+1}. ${d.q}</p>`;
+  d.opts.forEach((opt, j) => {
+    let cls = 'qbtn';
+    if (answered) {
+      if (j === d.correct) cls += ' correct';
+      else if (j === quizAnswers[i]) cls += ' wrong';
+      cls += ' disabled';
+    }
+    html += `<button class="${cls}" onclick="${answered ? '' : `answerQ(${i},${j})`}">${opt}</button>`;
+  });
+  if (answered) {
+    const ok = quizAnswers[i] === d.correct;
+    html += `<div class="qfeedback show ${ok?'ok':'no'}">${ok?'✓ Correct! ':'✗ Not quite. '}${d.explain}</div>`;
+  }
+  document.getElementById('q-display').innerHTML = html;
+}
+
+function answerQ(qi, ai) {
+  if (quizAnswers[qi] !== undefined) return;
+  quizAnswers[qi] = ai;
+  if (ai === quizData[qi].correct) quizScore++;
+  renderQuiz();
+  showQ(qi);
+}
+
+function renderFinalScore() {
+  const c = document.getElementById('final-score');
+  if (!c) return;
+  c.innerHTML = `<div class="score-box">
+    <div class="score-num">${quizScore}/${quizData.length}</div>
+    <div class="score-lbl">Quiz score — review any you missed before your exam.</div>
+  </div>`;
+}
+
+// ─── Navigation ────────────────────────────────────────────────────────────────
+function navigate(dir) {
+  cur = Math.max(0, Math.min(slides.length - 1, cur + dir));
+  matchSelected = null;
+  renderSlide();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goTo(i) {
+  cur = i;
+  matchSelected = null;
+  renderSlide();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+renderSlide();
+</script>
+</body>
+</html>
